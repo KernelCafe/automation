@@ -59,6 +59,6 @@ git push
 # self-update
 curl --version || exit 0
 tf=$(mktemp)
-curl https://raw.githubusercontent.com/KernelCafe/automation/main/cmd/sync-node-config/sync-node-config.sh > "${tf}"
+curl https://raw.githubusercontent.com/KernelCafe/automation/main/cmd/kconfsync/kconfsync.sh > "${tf}"
 chmod 755 "${tf}"
 "${tf}" && cp "${tf}" sync.sh
