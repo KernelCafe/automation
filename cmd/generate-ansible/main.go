@@ -35,13 +35,8 @@ type userMap struct {
 	Users []userConfig `yaml:"users"`
 }
 
-type groupConfig struct {
-	ID   int64 `yaml:"id"`
-	Sudo bool  `yaml:"sudo"`
-}
-
 type groupMap struct {
-	Groups map[string]groupConfig `yaml:"groups"`
+	Groups map[string]int64 `yaml:"groups"`
 }
 
 func main() {
@@ -169,12 +164,12 @@ func sshPlaybook(um *userMap) []playBookEntry {
 
 func groupPlaybook(gm *groupMap) []playBookEntry {
 	pb := []playBookEntry{}
-	for k, g := range gm.Groups {
+	for k, id := range gm.Groups {
 		pb = append(pb, playBookEntry{
 			Name: fmt.Sprintf("group for %s", k),
 			Group: ansibleGroup{
 				Name:   k,
-				ID:     g.ID,
+				ID:     id,
 				State:  "present",
 				System: false,
 			},
