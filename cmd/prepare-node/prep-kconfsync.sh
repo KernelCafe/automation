@@ -23,7 +23,6 @@ cat $HOME/.ssh/id_rsa.pub
 echo "MANUAL STEP: Create ${repo} repository on GitHub"
 read nadab
 
-cd $HOME
 git clone git@github.com:KernelCafe/${repo}.git "${HOME}/${repo}"
 cp "${srcdir}/../kconfsync/kconfsync.sh" sync.sh
 cp "${srcdir}/../kconfsync/gitignore" .gitignore
