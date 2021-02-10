@@ -4,5 +4,5 @@
 set -eux
 sudo groupadd -g 2010 barista
 sudo useradd -m -g barista -G sudo -r barista
-sudo -u barista -H ./prepare-ansible.sh
-sudo -u barista -H ./prepare-confsync.sh
+sudo -u barista -H ./prep-ansible.sh
+sudo -u barista -H ./prep-confsync.sh

@@ -1,6 +1,8 @@
 #!/bin/sh
 #
 # Prepare node for ansible
+set -eux
+
 repo="host-$(hostname -s)"
 cat /dev/zero | ssh-keygen -q -N ""
 git config --global user.email "${repo}@kernel.cafe"
