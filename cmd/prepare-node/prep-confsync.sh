@@ -16,7 +16,7 @@ rm -f $tf
 
 echo "MANUAL STEP: Add key to kernelcafe-hostbot:"
 cat $HOME/.ssh/id_rsa.pub
-read
+read nada
 
 echo "MANUAL STEP: Create ${repo} repository on GitHub"
 cd $HOME
