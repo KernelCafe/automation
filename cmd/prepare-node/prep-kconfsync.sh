@@ -20,14 +20,11 @@ rm -f $tf
 
 echo "MANUAL STEP: Add key to kernelcafe-hostbot:"
 cat $HOME/.ssh/id_rsa.pub
-read nada
-
 echo "MANUAL STEP: Create ${repo} repository on GitHub"
 read nadab
 
 cd $HOME
-git clone git@github.com:KernelCafe/${repo}.git
-cd "${repo}"
+git clone git@github.com:KernelCafe/${repo}.git "${HOME}/${repo}"
 cp "${srcdir}/../kconfsync/kconfsync.sh" sync.sh
 cp "${srcdir}/../kconfsync/gitignore" .gitignore
 chmod 755 sync.sh
