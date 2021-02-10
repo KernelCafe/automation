@@ -5,7 +5,11 @@ set -eux
 
 repo="host-$(hostname -s)"
 srcdir="$(dirname $0)"
-cat /dev/zero | ssh-keygen -q -N ""
+
+if [ ! -f "${HOME}/.ssh/id_rsa.pub" ]; then
+  cat /dev/zero | ssh-keygen -q -N ""
+fi
+
 git config --global user.email "${repo}@kernel.cafe"
 git config --global user.name "${repo}"
 
