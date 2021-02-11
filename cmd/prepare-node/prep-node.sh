@@ -22,5 +22,10 @@ elif [ "${uname}" = "Darwin" ]; then
     sudo chown -R barista:2000 /Users/$user
 fi
 
+echo "MANUAL: Run visudo and add:"
+echo "barista         ALL = (ALL) NOPASSWD: ALL"
+echo ""
+read xy
+
 sudo -u $user -H ./prep-ansible.sh
 sudo -u $user -H ./prep-kconfsync.sh
