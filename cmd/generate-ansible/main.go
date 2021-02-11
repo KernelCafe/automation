@@ -16,7 +16,7 @@ import (
 var (
 	userMapPath     = flag.String("usermap-path", "", "path to usermap")
 	groupMapPath    = flag.String("groupmap-path", "", "path to groupmap")
-	defaultGroup    = flag.String("default-group", "kernelcafe", "default group to add users to")
+	defaultGroup    = flag.String("default-group", "cafe", "default group to add users to")
 	defaultShell    = flag.String("default-shell", "fish", "default shell")
 	orgGroups       = flag.Bool("create-org-groups", false, "create groups for GitHub organizations")
 	startUID        = flag.Int("uid", 2000, "UID to start users at")
@@ -63,9 +63,10 @@ func main() {
 		klog.Exitf("load from %s: %v", *groupMapPath, err)
 	}
 
-	playbook := createPlaybook(um, gm)
+	pb := createPlaybook(um, gm)
 
-	bs, err := yaml.Marshal(playbook)
+	fmt.Println("---\n")
+	bs, err := yaml.Marshal([]playbook{pb})
 	if err != nil {
 		klog.Exitf("marshal err: %v", err)
 	}
@@ -114,11 +115,17 @@ type ansibleUser struct {
 	UpdatePassword   string   `yaml:"update_password,omitempty"`
 }
 
-type playBookEntry struct {
+type task struct {
 	Name          string        `yaml:"name"`
-	User          ansibleUser   `yaml:"user,omitempty"`
+	User          ansibleUser   `yaml:"ansible.builtin.user,omitempty"`
 	AuthorizedKey authorizedKey `yaml:"ansible.posix.authorized_key,omitempty"`
-	Group         ansibleGroup  `yaml:"group,omitempty"`
+	Group         ansibleGroup  `yaml:"ansible.builtin.group,omitempty"`
+}
+
+type playbook struct {
+	Name  string `yaml:"name"`
+	Hosts string `yaml:"hosts"`
+	Tasks []task `yaml:"tasks"`
 }
 
 type authorizedKey struct {
@@ -133,21 +140,21 @@ type authorizedKey struct {
 	ValidateCerts bool   `yaml:"validate_certs"`
 }
 
-func createPlaybook(um *userMap, gm *groupMap) []playBookEntry {
-	pb := []playBookEntry{}
-	pb = append(pb, groupPlaybook(gm)...)
-	pb = append(pb, userPlaybook(um)...)
-	pb = append(pb, sshPlaybook(um)...)
-	return pb
+func createPlaybook(um *userMap, gm *groupMap) playbook {
+	ts := []task{}
+	ts = append(ts, groupPlaybook(gm)...)
+	ts = append(ts, userPlaybook(um)...)
+	ts = append(ts, sshPlaybook(um)...)
+	return playbook{Name: "sync users", Hosts: "*", Tasks: ts}
 }
 
-func sshPlaybook(um *userMap) []playBookEntry {
-	pb := []playBookEntry{}
+func sshPlaybook(um *userMap) []task {
+	pb := []task{}
 
 	for _, u := range um.Users {
 		key := fmt.Sprintf("http://github.com/%s.keys", u.GitHub)
 
-		pb = append(pb, playBookEntry{
+		pb = append(pb, task{
 			Name: fmt.Sprintf("ssh key for %s", u.Name),
 			AuthorizedKey: authorizedKey{
 				User:      u.Name,
@@ -162,10 +169,10 @@ func sshPlaybook(um *userMap) []playBookEntry {
 	return pb
 }
 
-func groupPlaybook(gm *groupMap) []playBookEntry {
-	pb := []playBookEntry{}
+func groupPlaybook(gm *groupMap) []task {
+	pb := []task{}
 	for k, id := range gm.Groups {
-		pb = append(pb, playBookEntry{
+		pb = append(pb, task{
 			Name: fmt.Sprintf("group for %s", k),
 			Group: ansibleGroup{
 				Name:   k,
@@ -178,8 +185,8 @@ func groupPlaybook(gm *groupMap) []playBookEntry {
 	return pb
 }
 
-func userPlaybook(um *userMap) []playBookEntry {
-	pb := []playBookEntry{}
+func userPlaybook(um *userMap) []task {
+	pb := []task{}
 
 	for i, u := range um.Users {
 		if u.Shell == "" {
@@ -190,22 +197,22 @@ func userPlaybook(um *userMap) []playBookEntry {
 			u.LoginGroup = *defaultGroup
 		}
 
-		pb = append(pb, playBookEntry{
+		pb = append(pb, task{
 			Name: u.Name,
 			User: ansibleUser{
-				Append:         true,
+				Append:         false,
 				Comment:        u.GitHub,
 				CreateHome:     true,
 				GenerateSSHKey: true,
 				Group:          *defaultGroup,
 				Groups:         u.Groups,
 				Hidden:         true,
-				Home:           fmt.Sprintf("/users/%s", u.Name),
-				Local:          true,
+				Home:           fmt.Sprintf("/u/%s", u.Name),
 				PasswordLock:   true,
 				Password:       "*",
 				UID:            *startUID + i,
 				Name:           u.Name,
+				State:          "present",
 				Shell:          fmt.Sprintf("/usr/local/bin/%s", u.Shell),
 			}})
 	}
