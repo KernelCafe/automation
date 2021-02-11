@@ -3,7 +3,7 @@
 # Prepare node for ansible
 set -eux
 uname=$(uname)
-user=$user
+user="barista"
 
 if [ "${uname}" = "Linux" ]; then
     sudo groupadd -g 2000 $user
@@ -18,7 +18,9 @@ elif [ "${uname}" = "Darwin" ]; then
     sudo dscl . -create /Users/$user UniqueID 2000
     sudo dscl . -create /Users/$user PrimaryGroupID 2000
     sudo dscl . -create /Users/$user NFSHomeDirectory $home
+    sudo mkdir -p /Users/$user
+    sudo chown -R barista:2000 /Users/$user
 fi
 
 sudo -u $user -H ./prep-ansible.sh
-sudo -u $user -H ./prep-confsync.sh
+sudo -u $user -H ./prep-kconfsync.sh

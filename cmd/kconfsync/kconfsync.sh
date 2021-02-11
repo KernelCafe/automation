@@ -1,6 +1,6 @@
 #!/bin/sh
 dirs="/etc /usr/local/etc /root /usr/pkg/etc /opt/homebrew/etc"
-cd $HOME/host-$(hostname)
+cd $HOME/host-$(hostname -s)
 for dir in $dirs; do
     if [ ! -d "${dir}" ]; then
         continue
