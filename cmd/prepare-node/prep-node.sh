@@ -18,6 +18,7 @@ elif [ "${uname}" = "Darwin" ]; then
     sudo dscl . -create /Users/$user UniqueID 2000
     sudo dscl . -create /Users/$user PrimaryGroupID 2000
     sudo dscl . -create /Users/$user NFSHomeDirectory $home
+    sudo dscl . -append /Groups/admin GroupMembership $user
     sudo mkdir -p /Users/$user
     sudo chown -R barista:2000 /Users/$user
 fi

@@ -19,7 +19,7 @@ var (
 	defaultGroup    = flag.String("default-group", "cafe", "default group to add users to")
 	defaultShell    = flag.String("default-shell", "fish", "default shell")
 	orgGroups       = flag.Bool("create-org-groups", false, "create groups for GitHub organizations")
-	startUID        = flag.Int("uid", 2000, "UID to start users at")
+	startUID        = flag.Int("uid", 2001, "UID to start users at")
 	gitHubTokenFile = flag.String("github-token-file", "", "github token secret file")
 )
 
@@ -63,10 +63,21 @@ func main() {
 		klog.Exitf("load from %s: %v", *groupMapPath, err)
 	}
 
-	pb := createPlaybook(um, gm)
+	fmt.Println(`---
+- name: talk to all hosts just so we can learn about them
+  hosts: all
+  tasks:
+    - name: Classify hosts depending on their OS distribution
+      group_by:
+        key: os_{{ ansible_facts['system'] }}
+`)
 
-	fmt.Println("---\n")
-	bs, err := yaml.Marshal([]playbook{pb})
+	pbs := []playbook{}
+	for _, uname := range []string{"Darwin", "Linux"} {
+		pbs = append(pbs, createPlaybook(um, gm, uname))
+	}
+
+	bs, err := yaml.Marshal(pbs)
 	if err != nil {
 		klog.Exitf("marshal err: %v", err)
 	}
@@ -140,12 +151,12 @@ type authorizedKey struct {
 	ValidateCerts bool   `yaml:"validate_certs"`
 }
 
-func createPlaybook(um *userMap, gm *groupMap) playbook {
+func createPlaybook(um *userMap, gm *groupMap, uname string) playbook {
 	ts := []task{}
 	ts = append(ts, groupPlaybook(gm)...)
-	ts = append(ts, userPlaybook(um)...)
+	ts = append(ts, userPlaybook(um, uname)...)
 	ts = append(ts, sshPlaybook(um)...)
-	return playbook{Name: "sync users", Hosts: "*", Tasks: ts}
+	return playbook{Name: fmt.Sprintf("%s users", uname), Hosts: fmt.Sprintf("os_%s", uname), Tasks: ts}
 }
 
 func sshPlaybook(um *userMap) []task {
@@ -185,8 +196,15 @@ func groupPlaybook(gm *groupMap) []task {
 	return pb
 }
 
-func userPlaybook(um *userMap) []task {
+func userPlaybook(um *userMap, uname string) []task {
 	pb := []task{}
+
+	uroot := "/u"
+	shellbin := "/usr/bin"
+	if uname == "Darwin" {
+		uroot = "/Users"
+		shellbin = "/opt/homebrew/bin"
+	}
 
 	for i, u := range um.Users {
 		if u.Shell == "" {
@@ -207,13 +225,13 @@ func userPlaybook(um *userMap) []task {
 				Group:          *defaultGroup,
 				Groups:         u.Groups,
 				Hidden:         true,
-				Home:           fmt.Sprintf("/u/%s", u.Name),
+				Home:           fmt.Sprintf("%s/%s", uroot, u.Name),
 				PasswordLock:   true,
 				Password:       "*",
 				UID:            *startUID + i,
 				Name:           u.Name,
 				State:          "present",
-				Shell:          fmt.Sprintf("/usr/local/bin/%s", u.Shell),
+				Shell:          fmt.Sprintf("%s/%s", shellbin, u.Shell),
 			}})
 	}
 	return pb
