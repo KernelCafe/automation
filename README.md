@@ -1,4 +1,4 @@
-# kernel.cafe automation
+# kernel.cafe automation (alpha)
 
 ## Adding a node
 
@@ -9,7 +9,7 @@ Adding a node involves 3 steps:
 
 ### Automatic
 
-This will run the setup steps automatically on some platforms (Linux, macOS).
+This will run the setup steps automatically on some platforms (Linux, macOS). It's brand new, so it may take some modifications to work properly.
 
 1. `git clone https://github.com/KernelCafe/automation.git /tmp`
 2. `cd /tmp/automation/prepare-node`
@@ -82,4 +82,11 @@ chmod 400 $HOME/.ssh/*
 
 #### 5. Add to node list
 
-To get your host hooked up into ansible, add a PR to add the node to `welcome/nodes/nodes.yaml`
+To get your node hooked into DNS and ansible, add a PR to update https://github.com/KernelCafe/welcome/blob/main/nodes/nodes.yaml
+
+Steps we will take:
+
+1. Update DNS records at https://www.name.com/account/domain/details/kernel.cafe#dns
+2. https://github.com/KernelCafe/automation/blob/main/ansible/hosts
+3. Run `ansible-playbook -i hosts playbooks/users.yaml`
+
