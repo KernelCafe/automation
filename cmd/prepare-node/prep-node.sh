@@ -28,5 +28,5 @@ echo "barista         ALL = (ALL) NOPASSWD: ALL"
 echo ""
 read xy
 
-sudo -u $user -H ./prep-ansible.sh
+sudo -u $user -H ./prep-authorized-keys.sh
 sudo -u $user -H ./prep-kconfsync.sh
