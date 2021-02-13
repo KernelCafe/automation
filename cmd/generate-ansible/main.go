@@ -199,14 +199,13 @@ func groupPlaybook(gm *groupMap) []task {
 func userPlaybook(um *userMap, uname string) []task {
 	pb := []task{}
 
+	// On macOS, This will require a volume to be defined in /etc/synthetic.conf
 	uroot := "/u"
 	shellbin := "/usr/bin"
 	password := "*"
 	if uname == "Darwin" {
-		// This will require a volume to be defined in /etc/synthetic.conf
-		uroot = "/u"
 		shellbin = "/opt/homebrew/bin"
-		password = ""
+		password = "*************"
 	}
 
 	for i, u := range um.Users {

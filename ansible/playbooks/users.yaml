@@ -62,6 +62,7 @@
         hidden: true
         home: /u/t
         name: t
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -78,6 +79,7 @@
         hidden: true
         home: /u/briandealwis
         name: briandealwis
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -92,6 +94,7 @@
         hidden: true
         home: /u/jonjohnson
         name: jonjohnson
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -106,6 +109,7 @@
         hidden: true
         home: /u/urbano
         name: urbano
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -120,6 +124,7 @@
         hidden: true
         home: /u/suztomo
         name: suztomo
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -134,6 +139,7 @@
         hidden: true
         home: /u/matteojoliveau
         name: matteojoliveau
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -150,6 +156,7 @@
         hidden: true
         home: /u/priyawadhwa
         name: priyawadhwa
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -166,6 +173,7 @@
         hidden: true
         home: /u/izuyev
         name: izuyev
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -182,6 +190,7 @@
         hidden: true
         home: /u/selgamal
         name: selgamal
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -198,6 +207,7 @@
         hidden: true
         home: /u/zyanshu
         name: zyanshu
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -214,6 +224,7 @@
         hidden: true
         home: /u/afbjorklund
         name: afbjorklund
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -230,6 +241,7 @@
         hidden: true
         home: /u/medya
         name: medya
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -246,6 +258,7 @@
         hidden: true
         home: /u/powellsteven
         name: powellsteven
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -262,6 +275,7 @@
         hidden: true
         home: /u/tejaldesai
         name: tejaldesai
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -278,6 +292,7 @@
         hidden: true
         home: /u/gaghosh
         name: gaghosh
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -294,6 +309,7 @@
         hidden: true
         home: /u/modali
         name: modali
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -310,6 +326,7 @@
         hidden: true
         home: /u/nkubala
         name: nkubala
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -326,6 +343,7 @@
         hidden: true
         home: /u/marlongamez
         name: marlongamez
+        password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
@@ -460,6 +478,18 @@
 - name: Linux users
   hosts: os_Linux
   tasks:
+    - name: group for earlybird
+      ansible.builtin.group:
+        name: earlybird
+        gid: 2002
+        state: present
+        system: false
+    - name: group for contributor
+      ansible.builtin.group:
+        name: contributor
+        gid: 2003
+        state: present
+        system: false
     - name: group for patron
       ansible.builtin.group:
         name: patron
@@ -488,18 +518,6 @@
       ansible.builtin.group:
         name: cafe
         gid: 2001
-        state: present
-        system: false
-    - name: group for earlybird
-      ansible.builtin.group:
-        name: earlybird
-        gid: 2002
-        state: present
-        system: false
-    - name: group for contributor
-      ansible.builtin.group:
-        name: contributor
-        gid: 2003
         state: present
         system: false
     - name: t
