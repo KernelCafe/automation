@@ -23,7 +23,7 @@ cat $HOME/.ssh/id_rsa.pub
 echo "MANUAL STEP: Create ${repo} repository on GitHub"
 read nadab
 
-if [ ! -d "${HOME}/${repo}/.git"]; then
+if [ ! -d "${HOME}/${repo}/.git" ]; then
   git clone git@github.com:KernelCafe/${repo}.git "${HOME}/${repo}"
 fi
 

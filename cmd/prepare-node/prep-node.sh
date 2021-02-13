@@ -6,20 +6,25 @@ uname=$(uname)
 user="barista"
 
 if [ "${uname}" = "Linux" ]; then
-    sudo groupadd -g 2000 $user
-    sudo useradd -m -g $user -G sudo -r $user
+    lgroupls $user || sudo groupadd -g 2000 $user
+    id barista || sudo useradd -m -g $user -G sudo -r $user
 elif [ "${uname}" = "Darwin" ]; then
     home=/Users/$user
-    sudo dscl . -create /Groups/$user
-    sudo dscl . -create /Groups/$user gid 2000
-    sudo dscl . -create /Users/$user
-    sudo dscl . -create /Users/$user UserShell /bin/bash
-    sudo dscl . -create /Users/$user RealName "$user"
-    sudo dscl . -create /Users/$user UniqueID 2000
-    sudo dscl . -create /Users/$user PrimaryGroupID 2000
-    sudo dscl . -create /Users/$user NFSHomeDirectory $home
-    sudo dscl . -append /Groups/admin GroupMembership $user
-    sudo mkdir -p /Users/$user
+    if ! dscl . -read /Groups/barista; then
+        sudo dscl . -create /Groups/$user
+        sudo dscl . -create /Groups/$user gid 2000
+    fi
+
+    if ! id barista; then
+        sudo dscl . -create /Users/$user
+        sudo dscl . -create /Users/$user UserShell /bin/bash
+        sudo dscl . -create /Users/$user RealName "$user"
+        sudo dscl . -create /Users/$user UniqueID 2000
+        sudo dscl . -create /Users/$user PrimaryGroupID 2000
+        sudo dscl . -create /Users/$user NFSHomeDirectory $home
+        sudo dscl . -append /Groups/admin GroupMembership $user
+        sudo mkdir -p /Users/$user
+    fi
     sudo chown -R barista:2000 /Users/$user
 fi
 

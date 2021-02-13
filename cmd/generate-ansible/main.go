@@ -202,7 +202,8 @@ func userPlaybook(um *userMap, uname string) []task {
 	uroot := "/u"
 	shellbin := "/usr/bin"
 	if uname == "Darwin" {
-		uroot = "/Users"
+		// This will require a volume to be defined in /etc/synthetic.conf
+		uroot = "/u"
 		shellbin = "/opt/homebrew/bin"
 	}
 
