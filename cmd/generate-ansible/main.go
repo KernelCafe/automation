@@ -217,6 +217,11 @@ func userPlaybook(um *userMap, uname string) []task {
 			u.LoginGroup = *defaultGroup
 		}
 
+		if uname == "Darwin" {
+			// "staff" is used for local users on macOS *shrug*
+			u.Groups = append(u.Groups, "staff")
+		}
+
 		pb = append(pb, task{
 			Name: fmt.Sprintf("user for %s", u.Name),
 			User: ansibleUser{

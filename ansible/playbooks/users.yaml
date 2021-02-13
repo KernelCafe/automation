@@ -9,12 +9,6 @@
 - name: Darwin users
   hosts: os_Darwin
   tasks:
-    - name: group for cafe
-      ansible.builtin.group:
-        name: cafe
-        gid: 2001
-        state: present
-        system: false
     - name: group for earlybird
       ansible.builtin.group:
         name: earlybird
@@ -51,6 +45,12 @@
         gid: 2101
         state: present
         system: false
+    - name: group for cafe
+      ansible.builtin.group:
+        name: cafe
+        gid: 2001
+        state: present
+        system: false
     - name: user for t
       ansible.builtin.user:
         comment: t (tstromberg)
@@ -59,6 +59,7 @@
         group: cafe
         groups:
             - maintainer
+            - staff
         hidden: true
         home: /u/t
         name: t
@@ -76,6 +77,7 @@
         group: cafe
         groups:
             - skaffold
+            - staff
         hidden: true
         home: /u/briandealwis
         name: briandealwis
@@ -91,6 +93,8 @@
         create_home: true
         generate_ssh_key: true
         group: cafe
+        groups:
+            - staff
         hidden: true
         home: /u/jonjohnson
         name: jonjohnson
@@ -106,6 +110,8 @@
         create_home: true
         generate_ssh_key: true
         group: cafe
+        groups:
+            - staff
         hidden: true
         home: /u/urbano
         name: urbano
@@ -121,6 +127,8 @@
         create_home: true
         generate_ssh_key: true
         group: cafe
+        groups:
+            - staff
         hidden: true
         home: /u/suztomo
         name: suztomo
@@ -136,6 +144,8 @@
         create_home: true
         generate_ssh_key: true
         group: cafe
+        groups:
+            - staff
         hidden: true
         home: /u/matteojoliveau
         name: matteojoliveau
@@ -153,6 +163,7 @@
         group: cafe
         groups:
             - minikube
+            - staff
         hidden: true
         home: /u/priyawadhwa
         name: priyawadhwa
@@ -170,6 +181,7 @@
         group: cafe
         groups:
             - minikube
+            - staff
         hidden: true
         home: /u/izuyev
         name: izuyev
@@ -187,6 +199,7 @@
         group: cafe
         groups:
             - minikube
+            - staff
         hidden: true
         home: /u/selgamal
         name: selgamal
@@ -204,6 +217,7 @@
         group: cafe
         groups:
             - minikube
+            - staff
         hidden: true
         home: /u/zyanshu
         name: zyanshu
@@ -221,6 +235,7 @@
         group: cafe
         groups:
             - minikube
+            - staff
         hidden: true
         home: /u/afbjorklund
         name: afbjorklund
@@ -238,6 +253,7 @@
         group: cafe
         groups:
             - minikube
+            - staff
         hidden: true
         home: /u/medya
         name: medya
@@ -255,6 +271,7 @@
         group: cafe
         groups:
             - minikube
+            - staff
         hidden: true
         home: /u/powellsteven
         name: powellsteven
@@ -272,6 +289,7 @@
         group: cafe
         groups:
             - skaffold
+            - staff
         hidden: true
         home: /u/tejaldesai
         name: tejaldesai
@@ -289,6 +307,7 @@
         group: cafe
         groups:
             - skaffold
+            - staff
         hidden: true
         home: /u/gaghosh
         name: gaghosh
@@ -306,6 +325,7 @@
         group: cafe
         groups:
             - skaffold
+            - staff
         hidden: true
         home: /u/modali
         name: modali
@@ -323,6 +343,7 @@
         group: cafe
         groups:
             - skaffold
+            - staff
         hidden: true
         home: /u/nkubala
         name: nkubala
@@ -340,6 +361,7 @@
         group: cafe
         groups:
             - skaffold
+            - staff
         hidden: true
         home: /u/marlongamez
         name: marlongamez
@@ -478,24 +500,6 @@
 - name: Linux users
   hosts: os_Linux
   tasks:
-    - name: group for skaffold
-      ansible.builtin.group:
-        name: skaffold
-        gid: 2101
-        state: present
-        system: false
-    - name: group for cafe
-      ansible.builtin.group:
-        name: cafe
-        gid: 2001
-        state: present
-        system: false
-    - name: group for earlybird
-      ansible.builtin.group:
-        name: earlybird
-        gid: 2002
-        state: present
-        system: false
     - name: group for contributor
       ansible.builtin.group:
         name: contributor
@@ -518,6 +522,24 @@
       ansible.builtin.group:
         name: minikube
         gid: 2100
+        state: present
+        system: false
+    - name: group for skaffold
+      ansible.builtin.group:
+        name: skaffold
+        gid: 2101
+        state: present
+        system: false
+    - name: group for cafe
+      ansible.builtin.group:
+        name: cafe
+        gid: 2001
+        state: present
+        system: false
+    - name: group for earlybird
+      ansible.builtin.group:
+        name: earlybird
+        gid: 2002
         state: present
         system: false
     - name: user for t
