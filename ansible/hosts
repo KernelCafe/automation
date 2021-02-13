@@ -11,8 +11,9 @@
 # Ex 1: Ungrouped hosts, specify before any group headers.
 
 min
+max
 pi
-agx
+x
 
 ## green.example.com
 ## blue.example.com
