@@ -221,7 +221,6 @@ func userPlaybook(um *userMap, uname string) []task {
 			Name: fmt.Sprintf("user for %s", u.Name),
 			User: ansibleUser{
 				Append:         false,
-				Comment:        u.GitHub,
 				CreateHome:     true,
 				GenerateSSHKey: true,
 				Group:          *defaultGroup,
@@ -231,7 +230,8 @@ func userPlaybook(um *userMap, uname string) []task {
 				PasswordLock:   true,
 				Password:       password,
 				UID:            *startUID + i,
-				Name:           fmt.Sprintf("%s (%s)", u.Name, u.GitHub),
+				Comment:        fmt.Sprintf("%s (%s)", u.Name, u.GitHub),
+				Name:           u.Name,
 				State:          "present",
 				Shell:          fmt.Sprintf("%s/%s", shellbin, u.Shell),
 			}})
