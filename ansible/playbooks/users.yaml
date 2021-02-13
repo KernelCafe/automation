@@ -9,24 +9,6 @@
 - name: Darwin users
   hosts: os_Darwin
   tasks:
-    - name: group for minikube
-      ansible.builtin.group:
-        name: minikube
-        gid: 2100
-        state: present
-        system: false
-    - name: group for skaffold
-      ansible.builtin.group:
-        name: skaffold
-        gid: 2101
-        state: present
-        system: false
-    - name: group for cafe
-      ansible.builtin.group:
-        name: cafe
-        gid: 2001
-        state: present
-        system: false
     - name: group for earlybird
       ansible.builtin.group:
         name: earlybird
@@ -51,7 +33,25 @@
         gid: 2005
         state: present
         system: false
-    - name: t
+    - name: group for minikube
+      ansible.builtin.group:
+        name: minikube
+        gid: 2100
+        state: present
+        system: false
+    - name: group for skaffold
+      ansible.builtin.group:
+        name: skaffold
+        gid: 2101
+        state: present
+        system: false
+    - name: group for cafe
+      ansible.builtin.group:
+        name: cafe
+        gid: 2001
+        state: present
+        system: false
+    - name: user for t
       ansible.builtin.user:
         comment: tstromberg
         create_home: true
@@ -61,14 +61,14 @@
             - maintainer
         hidden: true
         home: /u/t
-        name: t
+        name: t (tstromberg)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2001
-    - name: briandealwis
+    - name: user for briandealwis
       ansible.builtin.user:
         comment: briandealwis
         create_home: true
@@ -78,14 +78,14 @@
             - skaffold
         hidden: true
         home: /u/briandealwis
-        name: briandealwis
+        name: briandealwis (briandealwis)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2002
-    - name: jonjohnson
+    - name: user for jonjohnson
       ansible.builtin.user:
         comment: jonjohnsonjr
         create_home: true
@@ -93,14 +93,14 @@
         group: cafe
         hidden: true
         home: /u/jonjohnson
-        name: jonjohnson
+        name: jonjohnson (jonjohnsonjr)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2003
-    - name: urbano
+    - name: user for urbano
       ansible.builtin.user:
         comment: puerco
         create_home: true
@@ -108,14 +108,14 @@
         group: cafe
         hidden: true
         home: /u/urbano
-        name: urbano
+        name: urbano (puerco)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2004
-    - name: suztomo
+    - name: user for suztomo
       ansible.builtin.user:
         comment: suztomo
         create_home: true
@@ -123,14 +123,14 @@
         group: cafe
         hidden: true
         home: /u/suztomo
-        name: suztomo
+        name: suztomo (suztomo)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2005
-    - name: matteojoliveau
+    - name: user for matteojoliveau
       ansible.builtin.user:
         comment: matteojoliveau
         create_home: true
@@ -138,14 +138,14 @@
         group: cafe
         hidden: true
         home: /u/matteojoliveau
-        name: matteojoliveau
+        name: matteojoliveau (matteojoliveau)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2006
-    - name: priyawadhwa
+    - name: user for priyawadhwa
       ansible.builtin.user:
         comment: priyawadhwa
         create_home: true
@@ -155,14 +155,14 @@
             - minikube
         hidden: true
         home: /u/priyawadhwa
-        name: priyawadhwa
+        name: priyawadhwa (priyawadhwa)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2007
-    - name: izuyev
+    - name: user for izuyev
       ansible.builtin.user:
         comment: ilya-zuyev
         create_home: true
@@ -172,14 +172,14 @@
             - minikube
         hidden: true
         home: /u/izuyev
-        name: izuyev
+        name: izuyev (ilya-zuyev)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2008
-    - name: selgamal
+    - name: user for selgamal
       ansible.builtin.user:
         comment: sharifelgamal
         create_home: true
@@ -189,14 +189,14 @@
             - minikube
         hidden: true
         home: /u/selgamal
-        name: selgamal
+        name: selgamal (sharifelgamal)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2009
-    - name: zyanshu
+    - name: user for zyanshu
       ansible.builtin.user:
         comment: azhao155
         create_home: true
@@ -206,14 +206,14 @@
             - minikube
         hidden: true
         home: /u/zyanshu
-        name: zyanshu
+        name: zyanshu (azhao155)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2010
-    - name: afbjorklund
+    - name: user for afbjorklund
       ansible.builtin.user:
         comment: afbjorklund
         create_home: true
@@ -223,14 +223,14 @@
             - minikube
         hidden: true
         home: /u/afbjorklund
-        name: afbjorklund
+        name: afbjorklund (afbjorklund)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2011
-    - name: medya
+    - name: user for medya
       ansible.builtin.user:
         comment: medyagh
         create_home: true
@@ -240,14 +240,14 @@
             - minikube
         hidden: true
         home: /u/medya
-        name: medya
+        name: medya (medyagh)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2012
-    - name: powellsteven
+    - name: user for powellsteven
       ansible.builtin.user:
         comment: spowelljr
         create_home: true
@@ -257,14 +257,14 @@
             - minikube
         hidden: true
         home: /u/powellsteven
-        name: powellsteven
+        name: powellsteven (spowelljr)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2013
-    - name: tejaldesai
+    - name: user for tejaldesai
       ansible.builtin.user:
         comment: tejal29
         create_home: true
@@ -274,14 +274,14 @@
             - skaffold
         hidden: true
         home: /u/tejaldesai
-        name: tejaldesai
+        name: tejaldesai (tejal29)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2014
-    - name: gaghosh
+    - name: user for gaghosh
       ansible.builtin.user:
         comment: gsquared94
         create_home: true
@@ -291,14 +291,14 @@
             - skaffold
         hidden: true
         home: /u/gaghosh
-        name: gaghosh
+        name: gaghosh (gsquared94)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2015
-    - name: modali
+    - name: user for modali
       ansible.builtin.user:
         comment: priyamodali
         create_home: true
@@ -308,14 +308,14 @@
             - skaffold
         hidden: true
         home: /u/modali
-        name: modali
+        name: modali (priyamodali)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2016
-    - name: nkubala
+    - name: user for nkubala
       ansible.builtin.user:
         comment: nkubala
         create_home: true
@@ -325,14 +325,14 @@
             - skaffold
         hidden: true
         home: /u/nkubala
-        name: nkubala
+        name: nkubala (nkubala)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2017
-    - name: marlongamez
+    - name: user for marlongamez
       ansible.builtin.user:
         comment: marlongamez
         create_home: true
@@ -342,7 +342,7 @@
             - skaffold
         hidden: true
         home: /u/marlongamez
-        name: marlongamez
+        name: marlongamez (marlongamez)
         password: '*************'
         password_lock: true
         shell: /opt/homebrew/bin/fish
@@ -478,18 +478,6 @@
 - name: Linux users
   hosts: os_Linux
   tasks:
-    - name: group for earlybird
-      ansible.builtin.group:
-        name: earlybird
-        gid: 2002
-        state: present
-        system: false
-    - name: group for contributor
-      ansible.builtin.group:
-        name: contributor
-        gid: 2003
-        state: present
-        system: false
     - name: group for patron
       ansible.builtin.group:
         name: patron
@@ -520,7 +508,19 @@
         gid: 2001
         state: present
         system: false
-    - name: t
+    - name: group for earlybird
+      ansible.builtin.group:
+        name: earlybird
+        gid: 2002
+        state: present
+        system: false
+    - name: group for contributor
+      ansible.builtin.group:
+        name: contributor
+        gid: 2003
+        state: present
+        system: false
+    - name: user for t
       ansible.builtin.user:
         comment: tstromberg
         create_home: true
@@ -530,14 +530,14 @@
             - maintainer
         hidden: true
         home: /u/t
-        name: t
+        name: t (tstromberg)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2001
-    - name: briandealwis
+    - name: user for briandealwis
       ansible.builtin.user:
         comment: briandealwis
         create_home: true
@@ -547,14 +547,14 @@
             - skaffold
         hidden: true
         home: /u/briandealwis
-        name: briandealwis
+        name: briandealwis (briandealwis)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2002
-    - name: jonjohnson
+    - name: user for jonjohnson
       ansible.builtin.user:
         comment: jonjohnsonjr
         create_home: true
@@ -562,14 +562,14 @@
         group: cafe
         hidden: true
         home: /u/jonjohnson
-        name: jonjohnson
+        name: jonjohnson (jonjohnsonjr)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2003
-    - name: urbano
+    - name: user for urbano
       ansible.builtin.user:
         comment: puerco
         create_home: true
@@ -577,14 +577,14 @@
         group: cafe
         hidden: true
         home: /u/urbano
-        name: urbano
+        name: urbano (puerco)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2004
-    - name: suztomo
+    - name: user for suztomo
       ansible.builtin.user:
         comment: suztomo
         create_home: true
@@ -592,14 +592,14 @@
         group: cafe
         hidden: true
         home: /u/suztomo
-        name: suztomo
+        name: suztomo (suztomo)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2005
-    - name: matteojoliveau
+    - name: user for matteojoliveau
       ansible.builtin.user:
         comment: matteojoliveau
         create_home: true
@@ -607,14 +607,14 @@
         group: cafe
         hidden: true
         home: /u/matteojoliveau
-        name: matteojoliveau
+        name: matteojoliveau (matteojoliveau)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2006
-    - name: priyawadhwa
+    - name: user for priyawadhwa
       ansible.builtin.user:
         comment: priyawadhwa
         create_home: true
@@ -624,14 +624,14 @@
             - minikube
         hidden: true
         home: /u/priyawadhwa
-        name: priyawadhwa
+        name: priyawadhwa (priyawadhwa)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2007
-    - name: izuyev
+    - name: user for izuyev
       ansible.builtin.user:
         comment: ilya-zuyev
         create_home: true
@@ -641,14 +641,14 @@
             - minikube
         hidden: true
         home: /u/izuyev
-        name: izuyev
+        name: izuyev (ilya-zuyev)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2008
-    - name: selgamal
+    - name: user for selgamal
       ansible.builtin.user:
         comment: sharifelgamal
         create_home: true
@@ -658,14 +658,14 @@
             - minikube
         hidden: true
         home: /u/selgamal
-        name: selgamal
+        name: selgamal (sharifelgamal)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2009
-    - name: zyanshu
+    - name: user for zyanshu
       ansible.builtin.user:
         comment: azhao155
         create_home: true
@@ -675,14 +675,14 @@
             - minikube
         hidden: true
         home: /u/zyanshu
-        name: zyanshu
+        name: zyanshu (azhao155)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2010
-    - name: afbjorklund
+    - name: user for afbjorklund
       ansible.builtin.user:
         comment: afbjorklund
         create_home: true
@@ -692,14 +692,14 @@
             - minikube
         hidden: true
         home: /u/afbjorklund
-        name: afbjorklund
+        name: afbjorklund (afbjorklund)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2011
-    - name: medya
+    - name: user for medya
       ansible.builtin.user:
         comment: medyagh
         create_home: true
@@ -709,14 +709,14 @@
             - minikube
         hidden: true
         home: /u/medya
-        name: medya
+        name: medya (medyagh)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2012
-    - name: powellsteven
+    - name: user for powellsteven
       ansible.builtin.user:
         comment: spowelljr
         create_home: true
@@ -726,14 +726,14 @@
             - minikube
         hidden: true
         home: /u/powellsteven
-        name: powellsteven
+        name: powellsteven (spowelljr)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2013
-    - name: tejaldesai
+    - name: user for tejaldesai
       ansible.builtin.user:
         comment: tejal29
         create_home: true
@@ -743,14 +743,14 @@
             - skaffold
         hidden: true
         home: /u/tejaldesai
-        name: tejaldesai
+        name: tejaldesai (tejal29)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2014
-    - name: gaghosh
+    - name: user for gaghosh
       ansible.builtin.user:
         comment: gsquared94
         create_home: true
@@ -760,14 +760,14 @@
             - skaffold
         hidden: true
         home: /u/gaghosh
-        name: gaghosh
+        name: gaghosh (gsquared94)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2015
-    - name: modali
+    - name: user for modali
       ansible.builtin.user:
         comment: priyamodali
         create_home: true
@@ -777,14 +777,14 @@
             - skaffold
         hidden: true
         home: /u/modali
-        name: modali
+        name: modali (priyamodali)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2016
-    - name: nkubala
+    - name: user for nkubala
       ansible.builtin.user:
         comment: nkubala
         create_home: true
@@ -794,14 +794,14 @@
             - skaffold
         hidden: true
         home: /u/nkubala
-        name: nkubala
+        name: nkubala (nkubala)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2017
-    - name: marlongamez
+    - name: user for marlongamez
       ansible.builtin.user:
         comment: marlongamez
         create_home: true
@@ -811,7 +811,7 @@
             - skaffold
         hidden: true
         home: /u/marlongamez
-        name: marlongamez
+        name: marlongamez (marlongamez)
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
