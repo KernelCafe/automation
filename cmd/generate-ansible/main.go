@@ -107,7 +107,7 @@ type ansibleUser struct {
 	MoveHome         bool     `yaml:"move_home,omitempty"`
 	Name             string   `yaml:"name"`
 	NonUnique        bool     `yaml:"non_unique,omitempty"`
-	Password         string   `yaml:"password"`
+	Password         string   `yaml:"password,omitempty"`
 	PasswordLock     bool     `yaml:"password_lock"`
 	Profile          string   `yaml:"profile,omitempty"`
 	Remove           bool     `yaml:"remove,omitempty"`
@@ -201,10 +201,12 @@ func userPlaybook(um *userMap, uname string) []task {
 
 	uroot := "/u"
 	shellbin := "/usr/bin"
+	password := "*"
 	if uname == "Darwin" {
 		// This will require a volume to be defined in /etc/synthetic.conf
 		uroot = "/u"
 		shellbin = "/opt/homebrew/bin"
+		password = ""
 	}
 
 	for i, u := range um.Users {
@@ -228,7 +230,7 @@ func userPlaybook(um *userMap, uname string) []task {
 				Hidden:         true,
 				Home:           fmt.Sprintf("%s/%s", uroot, u.Name),
 				PasswordLock:   true,
-				Password:       "*",
+				Password:       password,
 				UID:            *startUID + i,
 				Name:           u.Name,
 				State:          "present",
