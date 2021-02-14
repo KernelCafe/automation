@@ -11,7 +11,7 @@ Adding a node involves 3 steps:
 
 This will run the setup steps automatically on some platforms (Linux, macOS). It's brand new, so it may take some modifications to work properly.
 
-1. `git clone https://github.com/KernelCafe/automation.git /tmp`
+1. `git clone https://github.com/KernelCafe/automation.git /tmp/automation`
 2. `cd /tmp/automation/cmd/prepare-node`
 3. `sudo ./prep-node.sh`
 
