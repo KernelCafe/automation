@@ -4,8 +4,9 @@
 
 Adding a node involves 3 steps:
 
-* Create a `barista` user with `sudo` privileges, to be used by [ansible](https://www.ansible.com)
+* Create a `barista` user with password-less `sudo` privileges, to be used by [ansible](https://www.ansible.com)
 * (Optional) Install `kconfsync`, which will automatically backup system config files to GitHub, omitting keys and passwords.
+* Adding the host to DNS
 
 ### Automatic
 
@@ -82,11 +83,10 @@ chmod 400 $HOME/.ssh/*
 
 #### 5. Add to node list
 
-To get your node hooked into DNS and ansible, add a PR to update https://github.com/KernelCafe/welcome/blob/main/nodes/nodes.yaml
+To get your node hooked into DNS and ansible, send us PR's to update https://github.com/KernelCafe/welcome/blob/main/nodes/nodes.yaml and  https://github.com/KernelCafe/automation/blob/main/ansible/hosts
 
-Steps we will take:
+Afterwards, we will:
 
 1. Update DNS records at https://www.name.com/account/domain/details/kernel.cafe#dns
-2. https://github.com/KernelCafe/automation/blob/main/ansible/hosts
 3. Run `ansible-playbook -i hosts playbooks/users.yaml`
 
