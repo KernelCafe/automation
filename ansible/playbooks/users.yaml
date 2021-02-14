@@ -9,24 +9,6 @@
 - name: Darwin users
   hosts: os_Darwin
   tasks:
-    - name: group for cafe
-      ansible.builtin.group:
-        name: cafe
-        gid: 2001
-        state: present
-        system: false
-    - name: group for earlybird
-      ansible.builtin.group:
-        name: earlybird
-        gid: 2002
-        state: present
-        system: false
-    - name: group for contributor
-      ansible.builtin.group:
-        name: contributor
-        gid: 2003
-        state: present
-        system: false
     - name: group for patron
       ansible.builtin.group:
         name: patron
@@ -49,6 +31,24 @@
       ansible.builtin.group:
         name: skaffold
         gid: 2101
+        state: present
+        system: false
+    - name: group for cafe
+      ansible.builtin.group:
+        name: cafe
+        gid: 2001
+        state: present
+        system: false
+    - name: group for earlybird
+      ansible.builtin.group:
+        name: earlybird
+        gid: 2002
+        state: present
+        system: false
+    - name: group for contributor
+      ansible.builtin.group:
+        name: contributor
+        gid: 2003
         state: present
         system: false
     - name: user for t
@@ -371,6 +371,24 @@
         ssh_key_passphrase: ""
         state: present
         uid: 2018
+    - name: user for tle
+      ansible.builtin.user:
+        comment: tle (runlevel5)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - maintainer
+            - staff
+        hidden: true
+        home: /u/tle
+        name: tle
+        password: '*************'
+        password_lock: true
+        shell: /opt/homebrew/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2019
     - name: ssh key for t
       ansible.posix.authorized_key:
         key: http://github.com/tstromberg.keys
@@ -496,6 +514,13 @@
         manage_dir: true
         state: present
         user: marlongamez
+        validate_certs: false
+    - name: ssh key for tle
+      ansible.posix.authorized_key:
+        key: http://github.com/runlevel5.keys
+        manage_dir: true
+        state: present
+        user: tle
         validate_certs: false
 - name: Linux users
   hosts: os_Linux
@@ -840,6 +865,23 @@
         ssh_key_passphrase: ""
         state: present
         uid: 2018
+    - name: user for tle
+      ansible.builtin.user:
+        comment: tle (runlevel5)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - maintainer
+        hidden: true
+        home: /u/tle
+        name: tle
+        password: '*'
+        password_lock: true
+        shell: /usr/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2019
     - name: ssh key for t
       ansible.posix.authorized_key:
         key: http://github.com/tstromberg.keys
@@ -966,15 +1008,16 @@
         state: present
         user: marlongamez
         validate_certs: false
+    - name: ssh key for tle
+      ansible.posix.authorized_key:
+        key: http://github.com/runlevel5.keys
+        manage_dir: true
+        state: present
+        user: tle
+        validate_certs: false
 - name: FreeBSD users
   hosts: os_FreeBSD
   tasks:
-    - name: group for skaffold
-      ansible.builtin.group:
-        name: skaffold
-        gid: 2101
-        state: present
-        system: false
     - name: group for cafe
       ansible.builtin.group:
         name: cafe
@@ -1009,6 +1052,12 @@
       ansible.builtin.group:
         name: minikube
         gid: 2100
+        state: present
+        system: false
+    - name: group for skaffold
+      ansible.builtin.group:
+        name: skaffold
+        gid: 2101
         state: present
         system: false
     - name: user for t
@@ -1309,6 +1358,23 @@
         ssh_key_passphrase: ""
         state: present
         uid: 2018
+    - name: user for tle
+      ansible.builtin.user:
+        comment: tle (runlevel5)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - maintainer
+        hidden: true
+        home: /u/tle
+        name: tle
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2019
     - name: ssh key for t
       ansible.posix.authorized_key:
         key: http://github.com/tstromberg.keys
@@ -1434,4 +1500,11 @@
         manage_dir: true
         state: present
         user: marlongamez
+        validate_certs: false
+    - name: ssh key for tle
+      ansible.posix.authorized_key:
+        key: http://github.com/runlevel5.keys
+        manage_dir: true
+        state: present
+        user: tle
         validate_certs: false
