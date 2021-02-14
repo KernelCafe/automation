@@ -73,7 +73,7 @@ func main() {
 `)
 
 	pbs := []playbook{}
-	for _, uname := range []string{"Darwin", "Linux"} {
+	for _, uname := range []string{"Darwin", "Linux", "FreeBSD"} {
 		pbs = append(pbs, createPlaybook(um, gm, uname))
 	}
 
@@ -206,6 +206,9 @@ func userPlaybook(um *userMap, uname string) []task {
 	if uname == "Darwin" {
 		shellbin = "/opt/homebrew/bin"
 		password = "*************"
+	}
+	if uname == "FreeBSD" {
+		shellbin = "/usr/local/bin"
 	}
 
 	for i, u := range um.Users {

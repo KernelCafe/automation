@@ -9,6 +9,12 @@
 - name: Darwin users
   hosts: os_Darwin
   tasks:
+    - name: group for cafe
+      ansible.builtin.group:
+        name: cafe
+        gid: 2001
+        state: present
+        system: false
     - name: group for earlybird
       ansible.builtin.group:
         name: earlybird
@@ -43,12 +49,6 @@
       ansible.builtin.group:
         name: skaffold
         gid: 2101
-        state: present
-        system: false
-    - name: group for cafe
-      ansible.builtin.group:
-        name: cafe
-        gid: 2001
         state: present
         system: false
     - name: user for t
@@ -837,6 +837,475 @@
         password: '*'
         password_lock: true
         shell: /usr/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2018
+    - name: ssh key for t
+      ansible.posix.authorized_key:
+        key: http://github.com/tstromberg.keys
+        manage_dir: true
+        state: present
+        user: t
+        validate_certs: false
+    - name: ssh key for briandealwis
+      ansible.posix.authorized_key:
+        key: http://github.com/briandealwis.keys
+        manage_dir: true
+        state: present
+        user: briandealwis
+        validate_certs: false
+    - name: ssh key for jonjohnson
+      ansible.posix.authorized_key:
+        key: http://github.com/jonjohnsonjr.keys
+        manage_dir: true
+        state: present
+        user: jonjohnson
+        validate_certs: false
+    - name: ssh key for urbano
+      ansible.posix.authorized_key:
+        key: http://github.com/puerco.keys
+        manage_dir: true
+        state: present
+        user: urbano
+        validate_certs: false
+    - name: ssh key for suztomo
+      ansible.posix.authorized_key:
+        key: http://github.com/suztomo.keys
+        manage_dir: true
+        state: present
+        user: suztomo
+        validate_certs: false
+    - name: ssh key for matteojoliveau
+      ansible.posix.authorized_key:
+        key: http://github.com/matteojoliveau.keys
+        manage_dir: true
+        state: present
+        user: matteojoliveau
+        validate_certs: false
+    - name: ssh key for priyawadhwa
+      ansible.posix.authorized_key:
+        key: http://github.com/priyawadhwa.keys
+        manage_dir: true
+        state: present
+        user: priyawadhwa
+        validate_certs: false
+    - name: ssh key for izuyev
+      ansible.posix.authorized_key:
+        key: http://github.com/ilya-zuyev.keys
+        manage_dir: true
+        state: present
+        user: izuyev
+        validate_certs: false
+    - name: ssh key for selgamal
+      ansible.posix.authorized_key:
+        key: http://github.com/sharifelgamal.keys
+        manage_dir: true
+        state: present
+        user: selgamal
+        validate_certs: false
+    - name: ssh key for zyanshu
+      ansible.posix.authorized_key:
+        key: http://github.com/azhao155.keys
+        manage_dir: true
+        state: present
+        user: zyanshu
+        validate_certs: false
+    - name: ssh key for afbjorklund
+      ansible.posix.authorized_key:
+        key: http://github.com/afbjorklund.keys
+        manage_dir: true
+        state: present
+        user: afbjorklund
+        validate_certs: false
+    - name: ssh key for medya
+      ansible.posix.authorized_key:
+        key: http://github.com/medyagh.keys
+        manage_dir: true
+        state: present
+        user: medya
+        validate_certs: false
+    - name: ssh key for powellsteven
+      ansible.posix.authorized_key:
+        key: http://github.com/spowelljr.keys
+        manage_dir: true
+        state: present
+        user: powellsteven
+        validate_certs: false
+    - name: ssh key for tejaldesai
+      ansible.posix.authorized_key:
+        key: http://github.com/tejal29.keys
+        manage_dir: true
+        state: present
+        user: tejaldesai
+        validate_certs: false
+    - name: ssh key for gaghosh
+      ansible.posix.authorized_key:
+        key: http://github.com/gsquared94.keys
+        manage_dir: true
+        state: present
+        user: gaghosh
+        validate_certs: false
+    - name: ssh key for modali
+      ansible.posix.authorized_key:
+        key: http://github.com/priyamodali.keys
+        manage_dir: true
+        state: present
+        user: modali
+        validate_certs: false
+    - name: ssh key for nkubala
+      ansible.posix.authorized_key:
+        key: http://github.com/nkubala.keys
+        manage_dir: true
+        state: present
+        user: nkubala
+        validate_certs: false
+    - name: ssh key for marlongamez
+      ansible.posix.authorized_key:
+        key: http://github.com/marlongamez.keys
+        manage_dir: true
+        state: present
+        user: marlongamez
+        validate_certs: false
+- name: FreeBSD users
+  hosts: os_FreeBSD
+  tasks:
+    - name: group for skaffold
+      ansible.builtin.group:
+        name: skaffold
+        gid: 2101
+        state: present
+        system: false
+    - name: group for cafe
+      ansible.builtin.group:
+        name: cafe
+        gid: 2001
+        state: present
+        system: false
+    - name: group for earlybird
+      ansible.builtin.group:
+        name: earlybird
+        gid: 2002
+        state: present
+        system: false
+    - name: group for contributor
+      ansible.builtin.group:
+        name: contributor
+        gid: 2003
+        state: present
+        system: false
+    - name: group for patron
+      ansible.builtin.group:
+        name: patron
+        gid: 2004
+        state: present
+        system: false
+    - name: group for maintainer
+      ansible.builtin.group:
+        name: maintainer
+        gid: 2005
+        state: present
+        system: false
+    - name: group for minikube
+      ansible.builtin.group:
+        name: minikube
+        gid: 2100
+        state: present
+        system: false
+    - name: user for t
+      ansible.builtin.user:
+        comment: t (tstromberg)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - maintainer
+        hidden: true
+        home: /u/t
+        name: t
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2001
+    - name: user for briandealwis
+      ansible.builtin.user:
+        comment: briandealwis (briandealwis)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - skaffold
+        hidden: true
+        home: /u/briandealwis
+        name: briandealwis
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2002
+    - name: user for jonjohnson
+      ansible.builtin.user:
+        comment: jonjohnson (jonjohnsonjr)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        hidden: true
+        home: /u/jonjohnson
+        name: jonjohnson
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2003
+    - name: user for urbano
+      ansible.builtin.user:
+        comment: urbano (puerco)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        hidden: true
+        home: /u/urbano
+        name: urbano
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2004
+    - name: user for suztomo
+      ansible.builtin.user:
+        comment: suztomo (suztomo)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        hidden: true
+        home: /u/suztomo
+        name: suztomo
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2005
+    - name: user for matteojoliveau
+      ansible.builtin.user:
+        comment: matteojoliveau (matteojoliveau)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        hidden: true
+        home: /u/matteojoliveau
+        name: matteojoliveau
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2006
+    - name: user for priyawadhwa
+      ansible.builtin.user:
+        comment: priyawadhwa (priyawadhwa)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - minikube
+        hidden: true
+        home: /u/priyawadhwa
+        name: priyawadhwa
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2007
+    - name: user for izuyev
+      ansible.builtin.user:
+        comment: izuyev (ilya-zuyev)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - minikube
+        hidden: true
+        home: /u/izuyev
+        name: izuyev
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2008
+    - name: user for selgamal
+      ansible.builtin.user:
+        comment: selgamal (sharifelgamal)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - minikube
+        hidden: true
+        home: /u/selgamal
+        name: selgamal
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2009
+    - name: user for zyanshu
+      ansible.builtin.user:
+        comment: zyanshu (azhao155)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - minikube
+        hidden: true
+        home: /u/zyanshu
+        name: zyanshu
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2010
+    - name: user for afbjorklund
+      ansible.builtin.user:
+        comment: afbjorklund (afbjorklund)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - minikube
+        hidden: true
+        home: /u/afbjorklund
+        name: afbjorklund
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2011
+    - name: user for medya
+      ansible.builtin.user:
+        comment: medya (medyagh)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - minikube
+        hidden: true
+        home: /u/medya
+        name: medya
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2012
+    - name: user for powellsteven
+      ansible.builtin.user:
+        comment: powellsteven (spowelljr)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - minikube
+        hidden: true
+        home: /u/powellsteven
+        name: powellsteven
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2013
+    - name: user for tejaldesai
+      ansible.builtin.user:
+        comment: tejaldesai (tejal29)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - skaffold
+        hidden: true
+        home: /u/tejaldesai
+        name: tejaldesai
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2014
+    - name: user for gaghosh
+      ansible.builtin.user:
+        comment: gaghosh (gsquared94)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - skaffold
+        hidden: true
+        home: /u/gaghosh
+        name: gaghosh
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2015
+    - name: user for modali
+      ansible.builtin.user:
+        comment: modali (priyamodali)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - skaffold
+        hidden: true
+        home: /u/modali
+        name: modali
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2016
+    - name: user for nkubala
+      ansible.builtin.user:
+        comment: nkubala (nkubala)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - skaffold
+        hidden: true
+        home: /u/nkubala
+        name: nkubala
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
+        ssh_key_passphrase: ""
+        state: present
+        uid: 2017
+    - name: user for marlongamez
+      ansible.builtin.user:
+        comment: marlongamez (marlongamez)
+        create_home: true
+        generate_ssh_key: true
+        group: cafe
+        groups:
+            - skaffold
+        hidden: true
+        home: /u/marlongamez
+        name: marlongamez
+        password: '*'
+        password_lock: true
+        shell: /usr/local/bin/fish
         ssh_key_passphrase: ""
         state: present
         uid: 2018
