@@ -4,46 +4,46 @@
 - name: shrimp-paste (Linux/Fedora)
   hosts: shrimp-paste
   tasks:
-    - name: group skaffold on shrimp-paste
-      ansible.builtin.group:
-        name: skaffold
-        gid: 2101
-        state: present
-        system: false
     - name: group cafe on shrimp-paste
       ansible.builtin.group:
         name: cafe
         gid: 2001
         state: present
         system: false
-    - name: group earlybird on shrimp-paste
+    - name: group c-init on shrimp-paste
       ansible.builtin.group:
-        name: earlybird
+        name: c-init
         gid: 2002
         state: present
         system: false
-    - name: group contributor on shrimp-paste
+    - name: group c-contrib on shrimp-paste
       ansible.builtin.group:
-        name: contributor
+        name: c-contrib
         gid: 2003
         state: present
         system: false
-    - name: group patron on shrimp-paste
+    - name: group c-patron on shrimp-paste
       ansible.builtin.group:
-        name: patron
+        name: c-patron
         gid: 2004
         state: present
         system: false
-    - name: group maintainer on shrimp-paste
+    - name: group c-maint on shrimp-paste
       ansible.builtin.group:
-        name: maintainer
+        name: c-maint
         gid: 2005
         state: present
         system: false
-    - name: group minikube on shrimp-paste
+    - name: group c-minikube on shrimp-paste
       ansible.builtin.group:
-        name: minikube
+        name: c-minikube
         gid: 2100
+        state: present
+        system: false
+    - name: group c-skaffold on shrimp-paste
+      ansible.builtin.group:
+        name: c-skaffold
+        gid: 2101
         state: present
         system: false
     - name: t on shrimp-paste
@@ -53,7 +53,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - maintainer
+            - c-maint
         hidden: true
         home: /u/t
         name: t
@@ -70,7 +70,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - skaffold
+            - c-skaffold
         hidden: true
         home: /u/briandealwis
         name: briandealwis
@@ -147,7 +147,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - minikube
+            - c-minikube
         hidden: true
         home: /u/priyawadhwa
         name: priyawadhwa
@@ -164,7 +164,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - minikube
+            - c-minikube
         hidden: true
         home: /u/izuyev
         name: izuyev
@@ -181,7 +181,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - minikube
+            - c-minikube
         hidden: true
         home: /u/selgamal
         name: selgamal
@@ -198,7 +198,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - minikube
+            - c-minikube
         hidden: true
         home: /u/zyanshu
         name: zyanshu
@@ -215,7 +215,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - minikube
+            - c-minikube
         hidden: true
         home: /u/afbjorklund
         name: afbjorklund
@@ -232,7 +232,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - minikube
+            - c-minikube
         hidden: true
         home: /u/medya
         name: medya
@@ -249,7 +249,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - minikube
+            - c-minikube
         hidden: true
         home: /u/powellsteven
         name: powellsteven
@@ -266,7 +266,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - skaffold
+            - c-skaffold
         hidden: true
         home: /u/tejaldesai
         name: tejaldesai
@@ -283,7 +283,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - skaffold
+            - c-skaffold
         hidden: true
         home: /u/gaghosh
         name: gaghosh
@@ -300,7 +300,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - skaffold
+            - c-skaffold
         hidden: true
         home: /u/modali
         name: modali
@@ -317,7 +317,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - skaffold
+            - c-skaffold
         hidden: true
         home: /u/nkubala
         name: nkubala
@@ -334,7 +334,7 @@
         generate_ssh_key: true
         group: cafe
         groups:
-            - skaffold
+            - c-skaffold
         hidden: true
         home: /u/marlongamez
         name: marlongamez
