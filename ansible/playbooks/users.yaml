@@ -517,21 +517,10 @@
         state: present
         user: tle
         validate_certs: false
+  ignore_unreachable: "yes"
 - name: max (Darwin/macOS)
   hosts: max
   tasks:
-    - name: group c-minikube on max
-      ansible.builtin.group:
-        name: c-minikube
-        gid: 2100
-        state: present
-        system: false
-    - name: group c-skaffold on max
-      ansible.builtin.group:
-        name: c-skaffold
-        gid: 2101
-        state: present
-        system: false
     - name: group cafe on max
       ansible.builtin.group:
         name: cafe
@@ -560,6 +549,18 @@
       ansible.builtin.group:
         name: c-maint
         gid: 2005
+        state: present
+        system: false
+    - name: group c-minikube on max
+      ansible.builtin.group:
+        name: c-minikube
+        gid: 2100
+        state: present
+        system: false
+    - name: group c-skaffold on max
+      ansible.builtin.group:
+        name: c-skaffold
+        gid: 2101
         state: present
         system: false
     - name: t on max
@@ -1033,15 +1034,10 @@
         state: present
         user: tle
         validate_certs: false
+  ignore_unreachable: "yes"
 - name: x (Linux/Ubuntu)
   hosts: x
   tasks:
-    - name: group c-minikube on x
-      ansible.builtin.group:
-        name: c-minikube
-        gid: 2100
-        state: present
-        system: false
     - name: group c-skaffold on x
       ansible.builtin.group:
         name: c-skaffold
@@ -1076,6 +1072,12 @@
       ansible.builtin.group:
         name: c-maint
         gid: 2005
+        state: present
+        system: false
+    - name: group c-minikube on x
+      ansible.builtin.group:
+        name: c-minikube
+        gid: 2100
         state: present
         system: false
     - name: t on x
@@ -1526,9 +1528,16 @@
         state: present
         user: tle
         validate_certs: false
+  ignore_unreachable: "yes"
 - name: pi (Linux/Raspbian)
   hosts: pi
   tasks:
+    - name: group c-init on pi
+      ansible.builtin.group:
+        name: c-init
+        gid: 2002
+        state: present
+        system: false
     - name: group c-contrib on pi
       ansible.builtin.group:
         name: c-contrib
@@ -1563,12 +1572,6 @@
       ansible.builtin.group:
         name: cafe
         gid: 2001
-        state: present
-        system: false
-    - name: group c-init on pi
-      ansible.builtin.group:
-        name: c-init
-        gid: 2002
         state: present
         system: false
     - name: t on pi
@@ -2019,9 +2022,22 @@
         state: present
         user: tle
         validate_certs: false
+  ignore_unreachable: "yes"
 - name: pan (FreeBSD/FreeBSD)
   hosts: pan
   tasks:
+    - name: group c-contrib on pan
+      ansible.builtin.group:
+        name: c-contrib
+        gid: 2003
+        state: present
+        system: false
+    - name: group c-patron on pan
+      ansible.builtin.group:
+        name: c-patron
+        gid: 2004
+        state: present
+        system: false
     - name: group c-maint on pan
       ansible.builtin.group:
         name: c-maint
@@ -2050,18 +2066,6 @@
       ansible.builtin.group:
         name: c-init
         gid: 2002
-        state: present
-        system: false
-    - name: group c-contrib on pan
-      ansible.builtin.group:
-        name: c-contrib
-        gid: 2003
-        state: present
-        system: false
-    - name: group c-patron on pan
-      ansible.builtin.group:
-        name: c-patron
-        gid: 2004
         state: present
         system: false
     - name: t on pan
@@ -2512,9 +2516,22 @@
         state: present
         user: tle
         validate_certs: false
+  ignore_unreachable: "yes"
 - name: shrimp-paste (Linux/Fedora)
   hosts: shrimp-paste
   tasks:
+    - name: group cafe on shrimp-paste
+      ansible.builtin.group:
+        name: cafe
+        gid: 2001
+        state: present
+        system: false
+    - name: group c-init on shrimp-paste
+      ansible.builtin.group:
+        name: c-init
+        gid: 2002
+        state: present
+        system: false
     - name: group c-contrib on shrimp-paste
       ansible.builtin.group:
         name: c-contrib
@@ -2543,18 +2560,6 @@
       ansible.builtin.group:
         name: c-skaffold
         gid: 2101
-        state: present
-        system: false
-    - name: group cafe on shrimp-paste
-      ansible.builtin.group:
-        name: cafe
-        gid: 2001
-        state: present
-        system: false
-    - name: group c-init on shrimp-paste
-      ansible.builtin.group:
-        name: c-init
-        gid: 2002
         state: present
         system: false
     - name: t on shrimp-paste
@@ -2981,3 +2986,4 @@
         state: present
         user: marlongamez
         validate_certs: false
+  ignore_unreachable: "yes"

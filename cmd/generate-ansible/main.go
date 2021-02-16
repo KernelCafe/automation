@@ -151,9 +151,10 @@ type task struct {
 }
 
 type playbook struct {
-	Name  string `yaml:"name"`
-	Hosts string `yaml:"hosts"`
-	Tasks []task `yaml:"tasks"`
+	Name              string `yaml:"name"`
+	Hosts             string `yaml:"hosts"`
+	Tasks             []task `yaml:"tasks"`
+	IgnoreUnreachable string `yaml:"ignore_unreachable"`
 }
 
 type authorizedKey struct {
@@ -174,9 +175,10 @@ func createPlaybook(um *userMap, gm *groupMap, n node) playbook {
 	ts = append(ts, userPlaybook(um, n)...)
 	ts = append(ts, sshPlaybook(um, n)...)
 	return playbook{
-		Name:  fmt.Sprintf("%s (%s/%s)", n.Name, n.OS, n.Distro),
-		Hosts: n.Name,
-		Tasks: ts,
+		Name:              fmt.Sprintf("%s (%s/%s)", n.Name, n.OS, n.Distro),
+		Hosts:             n.Name,
+		Tasks:             ts,
+		IgnoreUnreachable: "yes",
 	}
 }
 
