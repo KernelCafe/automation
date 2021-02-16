@@ -9,7 +9,7 @@
     - block:
       - name: determine if "min" is up
         wait_for_connection:
-        timeout: 5
+          timeout: 5
         vars:
           ansible_connection: ssh
       - name: populate "min" group
@@ -25,7 +25,7 @@
     - block:
       - name: determine if "max" is up
         wait_for_connection:
-        timeout: 5
+          timeout: 5
         vars:
           ansible_connection: ssh
       - name: populate "max" group
@@ -41,7 +41,7 @@
     - block:
       - name: determine if "x" is up
         wait_for_connection:
-        timeout: 5
+          timeout: 5
         vars:
           ansible_connection: ssh
       - name: populate "x" group
@@ -57,7 +57,7 @@
     - block:
       - name: determine if "pi" is up
         wait_for_connection:
-        timeout: 5
+          timeout: 5
         vars:
           ansible_connection: ssh
       - name: populate "pi" group
@@ -73,7 +73,7 @@
     - block:
       - name: determine if "pan" is up
         wait_for_connection:
-        timeout: 5
+          timeout: 5
         vars:
           ansible_connection: ssh
       - name: populate "pan" group
@@ -89,7 +89,7 @@
     - block:
       - name: determine if "shrimp-paste" is up
         wait_for_connection:
-        timeout: 5
+          timeout: 5
         vars:
           ansible_connection: ssh
       - name: populate "shrimp-paste" group
@@ -100,6 +100,18 @@
 - name: min (Darwin/macOS)
   hosts: up_min
   tasks:
+    - name: group cafe on min
+      ansible.builtin.group:
+        name: cafe
+        gid: 2001
+        state: present
+        system: false
+    - name: group c-init on min
+      ansible.builtin.group:
+        name: c-init
+        gid: 2002
+        state: present
+        system: false
     - name: group c-contrib on min
       ansible.builtin.group:
         name: c-contrib
@@ -128,18 +140,6 @@
       ansible.builtin.group:
         name: c-skaffold
         gid: 2101
-        state: present
-        system: false
-    - name: group cafe on min
-      ansible.builtin.group:
-        name: cafe
-        gid: 2001
-        state: present
-        system: false
-    - name: group c-init on min
-      ansible.builtin.group:
-        name: c-init
-        gid: 2002
         state: present
         system: false
     - name: t on min
@@ -617,6 +617,12 @@
 - name: max (Darwin/macOS)
   hosts: up_max
   tasks:
+    - name: group c-skaffold on max
+      ansible.builtin.group:
+        name: c-skaffold
+        gid: 2101
+        state: present
+        system: false
     - name: group cafe on max
       ansible.builtin.group:
         name: cafe
@@ -651,12 +657,6 @@
       ansible.builtin.group:
         name: c-minikube
         gid: 2100
-        state: present
-        system: false
-    - name: group c-skaffold on max
-      ansible.builtin.group:
-        name: c-skaffold
-        gid: 2101
         state: present
         system: false
     - name: t on max
@@ -1628,24 +1628,6 @@
 - name: pi (Linux/Raspbian)
   hosts: up_pi
   tasks:
-    - name: group c-maint on pi
-      ansible.builtin.group:
-        name: c-maint
-        gid: 2005
-        state: present
-        system: false
-    - name: group c-minikube on pi
-      ansible.builtin.group:
-        name: c-minikube
-        gid: 2100
-        state: present
-        system: false
-    - name: group c-skaffold on pi
-      ansible.builtin.group:
-        name: c-skaffold
-        gid: 2101
-        state: present
-        system: false
     - name: group cafe on pi
       ansible.builtin.group:
         name: cafe
@@ -1668,6 +1650,24 @@
       ansible.builtin.group:
         name: c-patron
         gid: 2004
+        state: present
+        system: false
+    - name: group c-maint on pi
+      ansible.builtin.group:
+        name: c-maint
+        gid: 2005
+        state: present
+        system: false
+    - name: group c-minikube on pi
+      ansible.builtin.group:
+        name: c-minikube
+        gid: 2100
+        state: present
+        system: false
+    - name: group c-skaffold on pi
+      ansible.builtin.group:
+        name: c-skaffold
+        gid: 2101
         state: present
         system: false
     - name: t on pi
@@ -2122,18 +2122,6 @@
 - name: pan (FreeBSD/FreeBSD)
   hosts: up_pan
   tasks:
-    - name: group cafe on pan
-      ansible.builtin.group:
-        name: cafe
-        gid: 2001
-        state: present
-        system: false
-    - name: group c-init on pan
-      ansible.builtin.group:
-        name: c-init
-        gid: 2002
-        state: present
-        system: false
     - name: group c-contrib on pan
       ansible.builtin.group:
         name: c-contrib
@@ -2162,6 +2150,18 @@
       ansible.builtin.group:
         name: c-skaffold
         gid: 2101
+        state: present
+        system: false
+    - name: group cafe on pan
+      ansible.builtin.group:
+        name: cafe
+        gid: 2001
+        state: present
+        system: false
+    - name: group c-init on pan
+      ansible.builtin.group:
+        name: c-init
+        gid: 2002
         state: present
         system: false
     - name: t on pan

@@ -99,7 +99,7 @@ func main() {
     - block:
       - name: determine if %q is up
         wait_for_connection:
-        timeout: 5
+          timeout: 5
         vars:
           ansible_connection: ssh
       - name: populate %q group
