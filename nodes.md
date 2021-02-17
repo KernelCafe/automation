@@ -57,7 +57,7 @@ ChallengeResponseAuthentication no
 KerberosAuthentication no
 ```
 
-### Login Issues
+## Login Issues
 
 ### macOS
 
@@ -79,3 +79,78 @@ This is because on Fedora, SELinux is configured to only allow reading `authoriz
 1. Run: `sudo vim /etc/selinux/semanage.conf`
 2. Set `usepasswd=true`
 3. Run: `sudo  restorecon -Rv /u`
+
+
+## IPv6 Tunnels
+
+If your node requires an IPv6 tunnel, such as one setup by `he.net`, you may need some additional help keeping it stable. 
+
+### Handling DHCP changes
+
+Most IPv6 tunnels are only designed for static IP access, but can be reconfigured via a GET URL. Check your documentation, but http://tunnelbroker.net/ for instance uses a URL in the form of:
+
+https://username:hash@ipv4.tunnelbroker.net/nic/update?hostname=id
+
+Add this URL to a secret location, such as ~/.tunnel_url
+
+Then create a script to bring up the tunnel. For instance, I store this in `/root/bin/gif0-tunnel.sh`:
+
+```
+#!/bin/sh
+#
+# he.net tunnel configuration script, appropriate for usage in
+# dhcp-exit-hooks. Tested on FreeBSD 12.2-STABLE
+
+set -x -u -e
+server_v4="72.52.104.74"
+server_v6="2001:470:803d::1"
+client_v6="2001:470:803d::2"
+prefixlen=128
+
+int_gateway="2001:470:803d:1024::1"
+lab_gateway="2001:470:803d:cafe::1"
+
+curl $(cat /root/.tunnel_url)
+
+client_v4=$(ifconfig em2| grep inet | awk '{print $2 }')
+
+ifconfig igb0 inet6 "${int_gateway}" prefixlen 64
+ifconfig em0 inet6 "${lab_gateway}" prefixlen 64
+
+ifconfig gif0 destroy
+ifconfig gif0 create
+ifconfig gif0 tunnel "${client_v4}" "${server_v4}"
+
+ifconfig gif0 inet6 "${client_v6}" "${server_v6}" prefixlen "${prefixlen}"
+route -n add -inet6 default "${server_v6}"
+ifconfig gif0 up
+
+# this is hacky and shouldn't be necessary
+sleep 1
+/etc/rc.d/local_unbound restart
+/etc/rc.d/rtadvd restart
+```
+
+This script can then be trigerred automatically when your DHCP address changes, by creating a `/etc/dhclient-exit-hooks` that calls the script on IP changes. For instance:
+
+```
+#!/bin/sh
+logger -s /etc/dhclient-exit-hooks has been invoked
+logger -s "reason='$reason' if='$interface' med='$medium' new='$new_ip_address' old='$old_ip_address'"
+
+if [ "$reason" = "BOUND" -o "$reason" = "RENEW" -o  "$reason" = "REBOOT" -o "$reason" = "REBIND" ]; then
+  logger -s "reason $reason: configuring IPv6 tunnel for ${new_ip_address}"
+  /root/bin/gif0-tunnel.sh he
+  logger -s "all done here"
+elif [ "${new_ip_address}" != "${old_ip_address}" ]; then
+  logger -s "new ip: ${new_ip_address} - configuring IPv6 tunnel"
+  /root/bin/gif0-tunnel.sh he
+  logger -s "all done here"
+fi
+```
+
+### Restarting the tunnel if offline
+
+It probably isn't necessary, but for extra insurance, I use:
+
+`*/5 * * * * ping6 -c1 www.google.com || /root/bin/gif0-tunnel.sh he`
