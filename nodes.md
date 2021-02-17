@@ -73,7 +73,8 @@ Feb 16 09:50:41 shrimp-paste audit[311891]: AVC avc:  denied  { read } for  pid=
 0 tclass=file permissive=0 
 ```
 
-This is because on Fedora, SELinux is configured to only allow reading `authorized_keys` from `/home/`, and kernel.cafe users live in `/u/`.
+This is because on Fedora, SELinux is configured to only allow reading `authorized_keys` from `/home/`, and kernel.cafe users live in `/u/`. You can corfirm by checking if `ls -Zd /u/t` reports `system_u:object_r:etc_t:s0`, rather than `unconfined_u:object_r:user_home_dir_t:s0`
+
 
 1. Run: `sudo vim /etc/selinux/semanage.conf`
 2. Set `usepasswd=true`
