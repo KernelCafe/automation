@@ -33,5 +33,14 @@ echo "barista         ALL = (ALL) NOPASSWD: ALL"
 echo ""
 read xy
 
+# basic shell check
+echo "checking for shells: fish, bash, zsh"
+fish --version
+bash --version
+zsh --version
+
+echo "checking neofetch"
+neofetch
+
 sudo -u $user -H ./prep-authorized-keys.sh
 sudo -u $user -H ./prep-kconfsync.sh

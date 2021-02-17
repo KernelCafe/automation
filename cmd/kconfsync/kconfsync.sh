@@ -1,6 +1,16 @@
 #!/bin/sh
+# check that rsync is installed
+rsync --version || exit 1
+
+if [ -f /proc/sys/kernel/hostname ]; then
+  hostname=$(cat /proc/sys/kernel/hostname)
+else
+  hostname=$(hostname -s)
+fi
+
+
 dirs="/etc /usr/local/etc /root /usr/pkg/etc /opt/homebrew/etc"
-cd $HOME/host-$(hostname -s)
+cd $HOME/host-$hostname
 for dir in $dirs; do
     if [ ! -d "${dir}" ]; then
         continue
@@ -59,6 +69,8 @@ git push
 # self-update
 curl --version || exit 0
 tf=$(mktemp)
-curl https://raw.githubusercontent.com/KernelCafe/automation/main/cmd/kconfsync/kconfsync.sh > "${tf}"
-chmod 755 "${tf}"
-cp "${tf}" sync.sh
+curl -q https://raw.githubusercontent.com/KernelCafe/automation/main/cmd/kconfsync/kconfsync.sh > "${tf}"
+if [ -s "${tf}" ]; then
+  chmod 755 "${tf}"
+  cp "${tf}" sync.sh
+fi
