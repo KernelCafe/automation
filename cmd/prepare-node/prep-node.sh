@@ -6,7 +6,7 @@ uname=$(uname)
 user="barista"
 
 if [ "${uname}" = "Linux" ]; then
-    getent group pls $user || sudo groupadd -g 2000 $user
+    getent group $user || sudo groupadd -g 2000 $user
     id barista || sudo useradd -m -g $user -G sudo -r $user
 elif [ "${uname}" = "Darwin" ]; then
     home=/Users/$user
