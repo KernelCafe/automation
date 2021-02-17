@@ -154,3 +154,15 @@ fi
 It probably isn't necessary, but for extra insurance, I use:
 
 `*/5 * * * * ping6 -c1 www.google.com || /root/bin/gif0-tunnel.sh he`
+
+## Docker
+
+## Linux
+
+On Linux, adding users to the `docker` group effectively provides them `root` access. The cafe automation does not automatically add users to the Docker group for this reason. It is up to node maintainers to consider adding access on an as-needed basis, or automatically.
+
+At some point, we may consider opening `docker` access up to members of the `c-patron` group (donating members). 
+
+## macOS
+
+For Docker configuration, see https://dev.to/tstromberg/persistent-multi-user-docker-on-macos-32em
