@@ -8,15 +8,23 @@ else
   hostname=$(hostname -s)
 fi
 
-
 dirs="/etc /usr/local/etc /root /usr/pkg/etc /opt/homebrew/etc"
-cd $HOME/host-$hostname
+cd $HOME/host-$hostname || exit 1
+
 for dir in $dirs; do
     if [ ! -d "${dir}" ]; then
         continue
     fi
 
     rsync -vaRm --delete-excluded $dir \
+	--exclude "*.cache" \
+	--exclude "*pgp*" \
+	--exclude "crypttab" \
+	--exclude audisp-remote.conf \
+	--exclude gnupg/ \
+	--exclude libaudit.conf \
+	--exclude useradd \
+	--exclude zos-remote.conf \
         --exclude "*.db" \
         --exclude "*.log" \
         --exclude "*.pem" \
@@ -24,12 +32,10 @@ for dir in $dirs; do
         --exclude "*.png" \
         --exclude "*.sample" \
         --exclude "*.swp" \
-        --exclude "key.*" \
         --exclude "*cert*" \
         --exclude "*chatscript*" \
         --exclude "*key" \
         --exclude "*keys" \
-        --exclude "*passw*" \
         --exclude "*polkit*" \
         --exclude "*pwd*" \
         --exclude "*shadow*" \
@@ -38,26 +44,26 @@ for dir in $dirs; do
         --exclude "*users*" \
         --exclude "*~" \
         --exclude "gcp-cups*json" \
-        --exclude "passw*" \
+        --exclude "key.*" \
         --exclude bluetooth/ \
-        --exclude nsmb.conf \
-        --exclude devfs.rules \
-        --exclude opieaccess \
-        --exclude snmpd.conf \
-        --exclude tcsd.conf \
         --exclude cups/ \
+        --exclude devfs.rules \
         --exclude errors/ \
         --exclude fonts/ \
+        --exclude nsmb.conf \
         --exclude ntp/ \
+        --exclude opieaccess \
         --exclude ppp/ \
         --exclude rc.d/ \
         --exclude security/ \
+        --exclude snmpd.conf \
         --exclude ssl/ \
         --exclude ssmtp \
         --exclude syncthing \
+        --exclude tcsd.conf \
         --exclude templates/ \
         --exclude wireguard/ \
-        --exclude xdg/ \
+        --exclude xdg/
         .
 done
 
@@ -66,11 +72,3 @@ git diff
 git commit -am "$(git status -s | xargs)"
 git push
 
-# self-update
-curl --version || exit 0
-tf=$(mktemp)
-curl -q https://raw.githubusercontent.com/KernelCafe/automation/main/cmd/kconfsync/kconfsync.sh > "${tf}"
-if [ -s "${tf}" ]; then
-  chmod 755 "${tf}"
-  cp "${tf}" sync.sh
-fi
