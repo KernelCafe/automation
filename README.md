@@ -26,7 +26,7 @@ On Linux, run:
 
 ```
 sudo groupadd -g 2000 barista
-sudo useradd -m -g barista -G -r barista
+sudo useradd -m -g barista -r barista
 ```
 
 ### 2. (Optional) Setup automatic system configuration backups
