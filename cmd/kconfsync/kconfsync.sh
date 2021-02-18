@@ -15,14 +15,23 @@ for dir in $dirs; do
     if [ ! -d "${dir}" ]; then
         continue
     fi
+    if [ ! -r "${dir}" ]; then
+        continue
+    fi
 
     rsync -vaRm --delete-excluded $dir \
 	--exclude "*.cache" \
+	--exclude "*.seed" \
 	--exclude "*pgp*" \
+	--exclude "*private*" \
+	--exclude ".ssh/" \
 	--exclude "crypttab" \
+	--exclude acme/ \
 	--exclude audisp-remote.conf \
 	--exclude gnupg/ \
 	--exclude libaudit.conf \
+	--exclude master.passwd \
+	--exclude radiusd.conf \
 	--exclude useradd \
 	--exclude zos-remote.conf \
         --exclude "*.db" \
@@ -63,12 +72,11 @@ for dir in $dirs; do
         --exclude tcsd.conf \
         --exclude templates/ \
         --exclude wireguard/ \
-        --exclude xdg/
-        .
+        --exclude xdg/ \
+	.
 done
 
 git add .
-git diff
 git commit -am "$(git status -s | xargs)"
 git push
 
