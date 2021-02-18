@@ -3,7 +3,13 @@
 # Prepare node for confsync
 set -eux
 
-repo="host-$(hostname -s)"
+if [ -f /proc/sys/kernel/hostname ]; then
+  hostname=$(cat /proc/sys/kernel/hostname)
+else
+  hostname=$(hostname -s)
+fi
+
+repo="host-$hostname"
 srcdir="$(dirname $0)"
 
 if [ ! -f "${HOME}/.ssh/id_rsa.pub" ]; then
@@ -13,8 +19,10 @@ fi
 git config --global user.email "${repo}@kernel.cafe"
 git config --global user.name "${repo}"
 
+rsync --version
+
 tf=$(mktemp)
-echo "*/5 * * * * $HOME/${repo}/sync.sh" > $tf
+echo "*/15 * * * * $HOME/${repo}/sync.sh" > $tf
 crontab $tf
 rm -f $tf
 
