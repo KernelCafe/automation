@@ -28,24 +28,6 @@ var (
 	gitHubTokenFile = flag.String("github-token-file", "", "github token secret file")
 )
 
-var yamlPrefix = `
-- hosts: %s
-  connection: local
-  gather_facts: no
-  tasks:
-    - block:
-      - name: determine if %q is up
-        wait_for_connection:
-          timeout: 5
-        vars:
-          ansible_connection: ssh
-      - name: populate %q group
-        group_by:
-          key: "up_%s"
-      rescue:
-        - debug: msg="cannot connect to {{inventory_hostname}}"
-`
-
 type userConfig struct {
 	Name       string   `yaml:"name"`
 	GitHub     string   `yaml:"github"`
@@ -138,7 +120,6 @@ func dumpPlaybook(um *userMap, gm *groupMap, n node, path string) error {
 		return fmt.Errorf("write failed to %s: %v", path, err)
 	}
 
-	fmt.Fprintf(f, yamlPrefix, n.Name, n.Name, n.Name, n.Name)
 	pbs := []playbook{}
 	pbs = append(pbs, createPlaybook(um, gm, n))
 
@@ -209,6 +190,7 @@ type playbook struct {
 	Name              string `yaml:"name"`
 	Hosts             string `yaml:"hosts"`
 	Tasks             []task `yaml:"tasks"`
+	Become            string `yaml:"become"`
 	IgnoreUnreachable string `yaml:"ignore_unreachable,omitempty"`
 }
 
@@ -231,9 +213,10 @@ func createPlaybook(um *userMap, gm *groupMap, n node) playbook {
 	ts = append(ts, userPlaybook(um, n)...)
 	ts = append(ts, sshPlaybook(um, n)...)
 	return playbook{
-		Name:  fmt.Sprintf("%s (%s/%s)", n.Name, n.OS, n.Distro),
-		Hosts: fmt.Sprintf("up_%s", n.Name),
-		Tasks: ts,
+		Name:   fmt.Sprintf("%s (%s/%s)", n.Name, n.OS, n.Distro),
+		Hosts:  n.Name,
+		Tasks:  ts,
+		Become: "yes",
 	}
 }
 
