@@ -15,6 +15,6 @@ cd ..
 
 killall ansible
 go run cmd/generate-ansible/main.go --usermap $w/auth/users.yaml --groupmap $w/auth/groups.yaml --nodemap $w/nodes/nodes.yaml --out $pb
-cat $w/nodes/nodes.yaml | grep "^- name:" | cut -d" " -f3 > $HOME/ansible/hosts
-ls $pb | xargs -n1 -J8 ansible-playbook -i $HOME/ansible/hosts
+egrep -o -- "- name:.*"  $w/nodes/nodes.yaml | cut -d " " -f3 > $HOME/ansible/hosts
+ls $pb/* | xargs -n1 -J8 ansible-playbook -i $HOME/ansible/hosts
 
