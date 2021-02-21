@@ -191,7 +191,7 @@ type playbook struct {
 	Hosts             string `yaml:"hosts"`
 	Tasks             []task `yaml:"tasks"`
 	Become            string `yaml:"become"`
-	BecomeMethod      string `yaml:"become_method"`
+	BecomeMethod      string `yaml:"become_method,omitempty"`
 	IgnoreUnreachable string `yaml:"ignore_unreachable,omitempty"`
 }
 
