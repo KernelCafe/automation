@@ -219,12 +219,6 @@ func createPlaybook(um *userMap, gm *groupMap, n node) playbook {
 		Tasks:  ts,
 		Become: "yes",
 	}
-	if n.OS == "Illumos" {
-		pb.BecomeMethod = "pfexec"
-	}
-	if n.OS == "OpenBSD" || n.OS == "NetBSD" {
-		pb.BecomeMethod = "doas"
-	}
 	return pb
 }
 
