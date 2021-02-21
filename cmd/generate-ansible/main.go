@@ -187,12 +187,13 @@ type task struct {
 }
 
 type playbook struct {
-	Name              string `yaml:"name"`
-	Hosts             string `yaml:"hosts"`
-	Tasks             []task `yaml:"tasks"`
-	Become            string `yaml:"become"`
-	BecomeMethod      string `yaml:"become_method,omitempty"`
-	IgnoreUnreachable string `yaml:"ignore_unreachable,omitempty"`
+	Name              string            `yaml:"name"`
+	Hosts             string            `yaml:"hosts"`
+	Tasks             []task            `yaml:"tasks"`
+	Environment       map[string]string `yaml:"environment"`
+	Become            string            `yaml:"become"`
+	BecomeMethod      string            `yaml:"become_method,omitempty"`
+	IgnoreUnreachable string            `yaml:"ignore_unreachable,omitempty"`
 }
 
 type authorizedKey struct {
@@ -218,6 +219,9 @@ func createPlaybook(um *userMap, gm *groupMap, n node) playbook {
 		Hosts:  n.Name,
 		Tasks:  ts,
 		Become: "yes",
+		Environment: map[string]string{
+			"PATH": "{{ ansible_env.PATH }}:/opt/local/bin:/usr/pkg/bin:/usr/local/bin",
+		},
 	}
 	return pb
 }
