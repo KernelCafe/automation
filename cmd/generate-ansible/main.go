@@ -191,6 +191,7 @@ type playbook struct {
 	Hosts             string `yaml:"hosts"`
 	Tasks             []task `yaml:"tasks"`
 	Become            string `yaml:"become"`
+	BecomeMethod      string `yaml:"becobe_method"`
 	IgnoreUnreachable string `yaml:"ignore_unreachable,omitempty"`
 }
 
@@ -212,12 +213,19 @@ func createPlaybook(um *userMap, gm *groupMap, n node) playbook {
 	ts = append(ts, groupPlaybook(gm, n)...)
 	ts = append(ts, userPlaybook(um, n)...)
 	ts = append(ts, sshPlaybook(um, n)...)
-	return playbook{
+	pb := playbook{
 		Name:   fmt.Sprintf("%s (%s/%s)", n.Name, n.OS, n.Distro),
 		Hosts:  n.Name,
 		Tasks:  ts,
 		Become: "yes",
 	}
+	if n.OS == "Illumos" {
+		pb.BecomeMethod = "pfexec"
+	}
+	if n.OS == "OpenBSD" || n.OS == "NetBSD" {
+		pb.BecomeMethod = "doas"
+	}
+	return pb
 }
 
 func sshPlaybook(um *userMap, n node) []task {
@@ -279,6 +287,10 @@ func userPlaybook(um *userMap, n node) []task {
 	}
 	if n.OS == "FreeBSD" {
 		shellbin = "/usr/local/bin"
+	}
+
+	if n.OS == "Illumos" {
+		shellbin = "/opt/local/bin"
 	}
 
 	exclude := map[string]bool{}
