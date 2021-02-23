@@ -2,6 +2,7 @@
 w="${HOME}/welcome"
 pb="${HOME}/ansible/playbooks"
 mkdir -p $pb
+cd $HOME/automation/ansible
 
 git fetch && git pull
 cp ansible.cfg $HOME/ansible
