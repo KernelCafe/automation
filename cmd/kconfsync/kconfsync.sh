@@ -20,6 +20,9 @@ for dir in $dirs; do
     fi
 
     rsync -vaRm --delete-excluded $dir \
+        --exclude "securetty" \
+	--exclude "kernel.d/" \
+        --exclude "wpa_supplicant/" \
 	--exclude "*.cache" \
 	--exclude "*.seed" \
 	--exclude "*pgp*" \
