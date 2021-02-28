@@ -49,6 +49,7 @@ type node struct {
 	Name         string
 	Arch         string
 	OS           string
+	Shell        string
 	Distro       string
 	ExcludeUsers []string `yaml:"exclude_users"`
 }
@@ -273,6 +274,11 @@ func groupPlaybook(gm *groupMap, n node) []task {
 }
 
 func shellPath(n node, s string) string {
+	// Embedded hosts may only support a single shell
+	if n.Shell != "" {
+		return n.Shell
+	}
+
 	root := "/usr/bin"
 	switch n.OS {
 	case "Darwin":
