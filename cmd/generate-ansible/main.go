@@ -272,24 +272,37 @@ func groupPlaybook(gm *groupMap, n node) []task {
 	return pb
 }
 
+func shellPath(n node, s string) string {
+	root := "/usr/bin"
+	switch n.OS {
+	case "Darwin":
+		root = "/opt/homebrew/bin"
+	case "NetBSD":
+		root = "/usr/pkg/bin"
+	case "FreeBSD":
+		root = "/usr/local/bin"
+	case "Illumos":
+		root = "/opt/local/bin"
+	}
+
+	if n.Distro == "Gentoo" {
+		root = "/bin"
+	}
+	return filepath.Join(root, s)
+}
+
+func lockPassword(n node) string {
+	if n.OS == "Darwin" {
+		return "*************"
+	}
+	return "*"
+}
+
 func userPlaybook(um *userMap, n node) []task {
 	pb := []task{}
 
 	// On macOS, This will require a volume to be defined in /etc/synthetic.conf
 	uroot := "/u"
-	shellbin := "/usr/bin"
-	password := "*"
-	if n.OS == "Darwin" {
-		shellbin = "/opt/homebrew/bin"
-		password = "*************"
-	}
-	if n.OS == "FreeBSD" {
-		shellbin = "/usr/local/bin"
-	}
-
-	if n.OS == "Illumos" {
-		shellbin = "/opt/local/bin"
-	}
 
 	exclude := map[string]bool{}
 	for _, u := range n.ExcludeUsers {
@@ -325,12 +338,12 @@ func userPlaybook(um *userMap, n node) []task {
 				Hidden:         true,
 				Home:           fmt.Sprintf("%s/%s", uroot, u.Name),
 				PasswordLock:   true,
-				Password:       password,
+				Password:       lockPassword(n),
 				UID:            *startUID + i,
 				Comment:        fmt.Sprintf("%s (%s)", u.Name, u.GitHub),
 				Name:           u.Name,
 				State:          "present",
-				Shell:          fmt.Sprintf("%s/%s", shellbin, u.Shell),
+				Shell:          shellPath(n, u.Shell),
 			}})
 	}
 	return pb
