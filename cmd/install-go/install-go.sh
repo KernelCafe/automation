@@ -55,6 +55,11 @@ if [ -x "${target}" ]; then
     echo "Upgrading $target from ${inst} to ${VERSION}"
 fi
 
+# stale .go packages will cause compilation problems
+if [ -d "${GOROOT}/src" ]; then
+  find "${GOROOT}/src" -delete
+fi
+
 curl -L https://dl.google.com/go/go1.16.${GOOS}-${GOARCH}.tar.gz |
     tar --strip-components=1 -C "${GOROOT}" -xzf -
 
