@@ -1,6 +1,6 @@
 #!/bin/sh
 w="${HOME}/welcome"
-pb="${HOME}/ansible/playbooks"
+pb="${HOME}/ansible/playbooks/auto"
 mkdir -p $pb
 cd $HOME/automation/ansible
 
