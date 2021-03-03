@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Simple installer for Go - inspired by https://github.com/canha/golang-tools-install-script
-set -eu -o pipefail
+set -eu
 
 VERSION=${VERSION:-1.16}
 GOOS=${GOOS:-""}
