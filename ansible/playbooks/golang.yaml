@@ -1,0 +1,9 @@
+- name: Install Go
+  hosts: all 
+  become: yes
+  tasks:
+  - name: script
+    ansible.builtin.shell: curl -s https://raw.githubusercontent.com/KernelCafe/automation/main/cmd/install-go/install-go.sh | sudo env VERSION=1.16 sh
+    args:
+      executable: /bin/sh
+      creates: /usr/local/go/api/go1.16.txt
