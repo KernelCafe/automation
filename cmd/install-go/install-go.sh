@@ -49,10 +49,10 @@ target="${GOROOT}/bin/go"
 if [ -x "${target}" ]; then
     inst="$(${target} version | cut -d" " -f3 | sed s/^go//g)"
     if [ "${inst}" = "${VERSION}" ]; then
-        echo "go ${VERSION} is already installed"
+        echo "$target is already ${VERSION} - nothing to do"
         exit 0
     fi
-    echo "Upgrading go from ${inst} to ${VERSION}"
+    echo "Upgrading $target from ${inst} to ${VERSION}"
 fi
 
 curl -L https://dl.google.com/go/go1.16.${GOOS}-${GOARCH}.tar.gz |
@@ -63,3 +63,5 @@ if [ "${inst}" != "${VERSION}" ]; then
     echo "go ${VERSION} installation failed?"
     exit 1
 fi
+
+echo "go ${VERSION} has been installed to ${target}"
