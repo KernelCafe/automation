@@ -50,6 +50,8 @@ type node struct {
 	Arch         string
 	OS           string
 	Shell        string
+	Location     string
+	Owner        string
 	Distro       string
 	ExcludeUsers []string `yaml:"exclude_users"`
 }
@@ -185,6 +187,7 @@ type task struct {
 	User          ansibleUser   `yaml:"ansible.builtin.user,omitempty"`
 	AuthorizedKey authorizedKey `yaml:"ansible.posix.authorized_key,omitempty"`
 	Group         ansibleGroup  `yaml:"ansible.builtin.group,omitempty"`
+	Copy          copy  `yaml:"copy,omitempty"`
 }
 
 type playbook struct {
@@ -209,9 +212,15 @@ type authorizedKey struct {
 	ValidateCerts bool   `yaml:"validate_certs"`
 }
 
+type copy struct {
+	Dest string
+	Content string
+}
+
 func createPlaybook(um *userMap, gm *groupMap, n node) playbook {
 
 	ts := []task{}
+	ts = append(ts, motdPlaybook(n)...)
 	ts = append(ts, groupPlaybook(gm, n)...)
 	ts = append(ts, userPlaybook(um, n)...)
 	ts = append(ts, sshPlaybook(um, n)...)
@@ -226,6 +235,30 @@ func createPlaybook(um *userMap, gm *groupMap, n node) playbook {
 	}
 	return pb
 }
+
+func motdPlaybook(n node) []task {
+	return []task{
+		task{
+		Name: fmt.Sprintf("motd for %s", n.Name),
+		Copy: copy{
+			Dest: "/etc/motd",
+			Content: fmt.Sprintf(`
+****************************************************************************
+Welcome to the kernel cafe! We are so glad to have you here!
+
+This node is located in sunny %s and is operated by %s@
+
+Before running commands, please review the Terms of Service:
+https://github.com/KernelCafe/welcome/blob/main/TERMS_OF_SERVICE.md
+
+If you have a request, open an issue:          http://kernel.cafe/
+If you would like help, join our chat channel: https://discord.gg/s8nwgXQaKP
+****************************************************************************
+			`, n.Location, n.Owner),
+		},
+	}}
+}
+
 
 func sshPlaybook(um *userMap, n node) []task {
 	pb := []task{}
