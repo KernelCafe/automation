@@ -54,6 +54,7 @@ git clone git@github.com:KernelCafe/$repo.git
 cd $repo
 cp ../automation/cmd/kconfsync/kconfsync.sh sync.sh
 cp ../automation/cmd/kconfsync/gitignore .gitignore
+chmod +x ./sync.sh
 ./sync.sh
 ```
 
