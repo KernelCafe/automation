@@ -43,7 +43,7 @@ git config --global user.name "$(hostname -s)"
 ```
 
 1. Add the contents of $HOME/.ssh/id_rsa.pub` to https://github.com/settings/keys
-2. Create a GitHub repository: we typically do so as `KernelCafe/host-$(hostname -s)`
+2. Create a private GitHub repository: we typically do so as `KernelCafe/host-$(hostname -s)`
 
 Then run, as the barista user:
 
